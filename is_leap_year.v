@@ -4,7 +4,7 @@ module is_leap_year (
 );
 
 wire [3:0] thousands, hundreds, tens, units;
-wire div4, div100, div4_hundreds, div400;
+wire div4, div100, div400;
 
 assign thousands = year[15:12];
 assign hundreds = year[11:8];
@@ -18,10 +18,10 @@ assign div4 = (~tens[0] && (units[1:0] == 2'b00)) ||
               ( tens[0] && (units[1:0] == 2'b10);
 
 //Check if the year is divisible by 100
-assign div100 = {tens, hundreds} == 8'b00000000;
+assign div100 = {tens, units} == 8'b00000000;
 
 //Check if the year is divisible by 400
-//The year must be divisible by 100 and the year's hundreds must be divisible by 4
+//The year must be divisible by 100 and the century prefix must be divisible by 4
 assign div400 = div100 && 
                 (~thousands[0] && (hundreds[1:0] == 2'b00)) ||
                 ( thousands[0] && (hundreds[1:0] == 2'b10);
