@@ -10,7 +10,7 @@ module blink_mask_generator (
     timer_tick #(
         .CLK_FREQ(50000000), // Đổi thành tần số thật của board bạn (VD: 50MHz)
         .SECONDS(1)          // Đếm 1 giây
-    ) u_timer_1s (
+    ) u_timer_2s (
         .clk(clk),
         .rst_n(rst_n),
         .en(1'b1),           // Luôn chạy ngầm
