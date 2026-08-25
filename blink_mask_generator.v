@@ -6,23 +6,23 @@ module blink_mask_generator (
 );
 
     // Khởi tạo bộ đếm 2 giây từ module có sẵn của bạn
-    wire tick_2s;
+    wire tick_1s;
     timer_tick #(
         .CLK_FREQ(50000000), // Đổi thành tần số thật của board bạn (VD: 50MHz)
-        .SECONDS(2)          // Đếm 2 giây
-    ) u_timer_2s (
+        .SECONDS(1)          // Đếm 1 giây
+    ) u_timer_1s (
         .clk(clk),
         .rst_n(rst_n),
         .en(1'b1),           // Luôn chạy ngầm
-        .tick_out(tick_2s)
+        .tick_out(tick_1s)
     );
 
-    // Cờ lật trạng thái Sáng/Tối mỗi 2 giây
+    // Cờ lật trạng thái Sáng/Tối mỗi 1 giây
     reg blink_state;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n)
             blink_state <= 1'b1; 
-        else if (tick_2s)
+        else if (tick_1s)
             blink_state <= ~blink_state;
     end
 
