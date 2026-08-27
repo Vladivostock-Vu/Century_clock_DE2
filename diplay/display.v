@@ -1,5 +1,5 @@
 module Display(
-    input mode_switch,              // 1: Giờ/Phút/Giây, 0: Ngày/Tháng/Năm
+    input switch,              // 1: Giờ/Phút/Giây, 0: Ngày/Tháng/Năm
     input [6:0] blink_mask,         // Nhận từ khối blink_mask_generator
     input [7:0] second, minute, hour, day, month, year, century, // Nhận từ top_module_time_counter
     output reg [13:0] led1, led2, led3, led4
@@ -19,7 +19,7 @@ module Display(
     bcd2seg bcd2seg_c(.bcd(century), .sseg(seg_c));
 
     always @(*) begin
-        if(mode_switch) begin
+        if(switch) begin
             // ================= CHẾ ĐỘ THỜI GIAN =================
             // bit 0: giây, bit 1: phút, bit 2: giờ
             led1 = blink_mask[0] ? seg_h  : 14'b11111111111111; 
