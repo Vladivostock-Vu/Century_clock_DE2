@@ -25,6 +25,7 @@ time_unit_counter #(.MIN_VALUE(8'h0))second_counter(
     .en(enable[0]),
     .inc(inc),
     .dec(dec),
+    .clamp_enable(1'b0),
     .mode(mode),
     .counter(second),
     .carry_out(carry_second)
@@ -39,6 +40,7 @@ time_unit_counter #(.MIN_VALUE(8'h0)) minute_counter(
     .en(enable[1]),
     .inc(inc),
     .dec(dec),
+    .clamp_enable(1'b0),
     .mode(mode),
     .counter(minute),
     .carry_out(carry_minute)
@@ -53,6 +55,7 @@ time_unit_counter #(.MIN_VALUE(8'h0)) hour_counter(
     .en(enable[2]),
     .inc(inc),
     .dec(dec),
+    .clamp_enable(1'b0),
     .mode(mode),
     .counter(hour),
     .carry_out(carry_hour)
@@ -67,6 +70,7 @@ time_unit_counter #(.MIN_VALUE(8'h1)) day_counter(
     .en(enable[3]),
     .inc(inc),
     .dec(dec),
+    .clamp_enable(1'b1),
     .mode(mode),
     .counter(day),
     .carry_out(carry_day)
@@ -81,6 +85,7 @@ time_unit_counter #(.MIN_VALUE(8'h1)) month_counter(
     .en(enable[4]),
     .inc(inc),
     .dec(dec),
+    .clamp_enable(1'b0),
     .mode(mode),
     .counter(month),
     .carry_out(carry_month)
@@ -96,6 +101,7 @@ time_unit_counter #(.MIN_VALUE(8'h0)) year_counter(
     .inc(inc),
     .dec(dec),
     .mode(mode),
+    .clamp_enable(1'b0),
     .counter(year),
     .carry_out(carry_year)
 );
@@ -109,6 +115,7 @@ time_unit_counter #(.MIN_VALUE(8'h0)) century_counter(
     .inc(inc),
     .dec(dec),
     .mode(mode),
+    .clamp_enable(1'b0),
     .counter(century),
     .carry_out()
 );
