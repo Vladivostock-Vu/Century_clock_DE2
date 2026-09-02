@@ -9,16 +9,25 @@ module time_unit_counter #(
     input wire inc,        // tăng giá trị (xung 1 chu kỳ clk)
     input wire dec,        // giảm giá trị (xung 1 chu kỳ clk)
     input wire mode,       // 0: chế độ bth, 1: điều chỉnh
+    // Chỉ bật cho counter cần ép giá trị
+    input  wire clamp_enable,
     input wire [7:0] max_value, // giá trị tối đa của counter 
     output reg [7:0] counter, // counter 0 - max_value (mã BCD)
     output wire carry_out   // tín hiệu báo tràn khi counter = max_value
 );
 // trước để tuần tự bị trễ mất 1 chu kì, nên cần tạo comb 
-assign carry_out = !mode && tick && (counter == max_value);
+    assign carry_out = !mode && tick && (counter == max_value);
+     // Giá trị vượt giới hạn
+    wire value_invalid;
+    assign value_invalid = clamp_enable && (counter > max_value);
 
     always @(posedge clk_i or posedge rst) begin
         if (rst) begin
             counter <= MIN_VALUE;
+        end
+        // Ưu tiên ép giá trị hợp lệ
+        else if (value_invalid) begin
+            counter <= max_value;
         end
         else begin
             if (!mode) begin // chế độ bình thường
