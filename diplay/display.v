@@ -1,4 +1,5 @@
 module Display(
+    input edit_enable,
     input switch,              // 1: Giờ/Phút/Giây, 0: Ngày/Tháng/Năm
     input [6:0] blink_mask,         // Nhận từ khối blink_mask_generator
     input [7:0] second, minute, hour, day, month, year, century, // Nhận từ top_module_time_counter
@@ -19,21 +20,41 @@ module Display(
     bcd2seg bcd2seg_c(.bcd(century), .sseg(seg_c));
 
     always @(*) begin
-        if(switch) begin
-            // ================= CHẾ ĐỘ THỜI GIAN =================
-            // bit 0: giây, bit 1: phút, bit 2: giờ
-            led1 = blink_mask[2] ? seg_h  : 14'b11111111111111; 
-            led2 = blink_mask[1] ? seg_mi : 14'b11111111111111; 
-            led3 = blink_mask[0] ? seg_s  : 14'b11111111111111; 
-            led4 = 14'b11111111111111; // Luôn tắt ở chế độ thời gian
+        if(!edit_enable) begin
+                if(switch) begin
+                // ================= CHẾ ĐỘ THỜI GIAN =================
+                // bit 0: giây, bit 1: phút, bit 2: giờ
+                led1 =  seg_h  ; 
+                led2 =  seg_mi ; 
+                led3 =  seg_s ; 
+                led4 = 14'b11111111111111; // Luôn tắt ở chế độ thời gian
+            end
+            else begin
+                // ================= CHẾ ĐỘ NGÀY THÁNG =================
+                // bit 3: ngày, bit 4: tháng, bit 5: năm, bit 6: thế kỉ 
+                led1 = seg_d ; 
+                led2 = seg_mo ; 
+                led4 = seg_y  ; // Lấy theo đúng vị trí code cũ của bạn
+                led3 = seg_c ; // Lấy theo đúng vị trí code cũ của bạn
+            end
         end
         else begin
-            // ================= CHẾ ĐỘ NGÀY THÁNG =================
-            // bit 3: ngày, bit 4: tháng, bit 5: năm, bit 6: thế kỉ
-            led1 = blink_mask[3] ? seg_d  : 14'b11111111111111; 
-            led2 = blink_mask[4] ? seg_mo : 14'b11111111111111; 
-            led4 = blink_mask[5] ? seg_y  : 14'b11111111111111; // Lấy theo đúng vị trí code cũ của bạn
-            led3 = blink_mask[6] ? seg_c  : 14'b11111111111111; 
+            if(switch) begin
+                // ================= CHẾ ĐỘ THỜI GIAN =================
+                // bit 0: giây, bit 1: phút, bit 2: giờ
+                led1 = blink_mask[2]  ? seg_h  : 14'b11111111111111; 
+                led2 = blink_mask[1]  ? seg_mi : 14'b11111111111111; 
+                led3 = blink_mask[0]  ? seg_s  : 14'b11111111111111; 
+                led4 = 14'b11111111111111; // Luôn tắt ở chế độ thời gian
+            end
+            else begin
+                // ================= CHẾ ĐỘ NGÀY THÁNG =================
+                // bit 3: ngày, bit 4: tháng, bit 5: năm, bit 6: thế kỉ 
+                led1 = blink_mask[3]  ? seg_d  : 14'b11111111111111; 
+                led2 = blink_mask[4]  ? seg_mo : 14'b11111111111111; 
+                led4 = blink_mask[5]  ? seg_y  : 14'b11111111111111; // Lấy theo đúng vị trí code cũ của bạn
+                led3 = blink_mask[6]  ? seg_c  : 14'b11111111111111; // Lấy theo đúng vị trí code cũ của bạn
+            end
         end
     end
 endmodule
