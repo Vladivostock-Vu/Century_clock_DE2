@@ -22,9 +22,9 @@ module Display(
         if(switch) begin
             // ================= CHẾ ĐỘ THỜI GIAN =================
             // bit 0: giây, bit 1: phút, bit 2: giờ
-            led1 = blink_mask[0] ? seg_h  : 14'b11111111111111; 
+            led1 = blink_mask[2] ? seg_h  : 14'b11111111111111; 
             led2 = blink_mask[1] ? seg_mi : 14'b11111111111111; 
-            led3 = blink_mask[2] ? seg_s  : 14'b11111111111111; 
+            led3 = blink_mask[0] ? seg_s  : 14'b11111111111111; 
             led4 = 14'b11111111111111; // Luôn tắt ở chế độ thời gian
         end
         else begin
