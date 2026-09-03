@@ -5,6 +5,7 @@ module top_module(
     input wire btn_down,       
     input wire edit_enable,    
     input wire [6:0] edit_sw,  
+    input wire sw,                // Công tắc chọn hiển thị: 0 = Giờ/Phút/Giây, 1 = Ngày/Tháng/Năm
     
     output wire [13:0] led_display_1, 
     output wire [13:0] led_display_2, 
@@ -57,7 +58,8 @@ module top_module(
     // 3. KHỐI HIỂN THỊ
     // =========================================================
     Display u_display (
-        .switch(w_switch),
+        .switch(sw),
+        .edit_enable(edit_enable),
         .blink_mask(w_blink_mask), // Nhận mặt nạ nháy từ controller
         .second(w_sec), .minute(w_min), .hour(w_hr), 
         .day(w_day), .month(w_mon), .year(w_yr), .century(w_cen),
