@@ -6,6 +6,7 @@ module tb_top_module;
     initial begin
         clk = 1'b0;
         forever #10 clk = ~clk;
+    end
 
     reg rst_btn;
     reg btn_up;
